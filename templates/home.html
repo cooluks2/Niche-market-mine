@@ -1,5 +1,51 @@
 {% extends "base.html" %}
 {% block title%}Home{% endblock %}
 {% block content%}
-<h1>홈 페이1</h1>
+<!--이 안에 작성-->
+<!--지도용 script 추가-->
+
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=aqknd5ytgc">
+</script>
+
+<script>
+    $(function(){
+        var mapOptions = {
+            center: new naver.maps.LatLng(37.509729, 127.055447),
+            zoom: 11,
+            scaleControl: false,  // 축적 표시
+            logoControl: false,  // 네이버 로고
+            mapDataControl: false,  // 저작권 표시
+            zoomControl: true,  // +/- 줌 컨트롤
+            zoomControlOptions: {
+                style: naver.maps.ZoomControlStyle.LARGE
+            }
+        };
+
+        var map = new naver.maps.Map('map', mapOptions);
+
+
+        var marker = new naver.maps.Marker({
+            position : new naver.maps.LatLng(37.3595704, 127.105399),
+            map : map,
+        });
+    });
+
+
+</script>
+
+<!--지도용 script 추가 끝 -->
+
+
+<!--보여줄 곳-->
+<h1>지도 입니당 일단 늘립니당 더더더더더 어디까지</h1>
+<div id="map" style="width:100%;height:400px;" class="map">
+
+</div>
+
+<!--보여줄 곳 끝-->
+
+<!--이 안에 작성-->
 {% endblock %}
+
+
+
