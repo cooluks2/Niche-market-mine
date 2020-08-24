@@ -25,13 +25,12 @@
 
         // marker 반복문 이용!!! 하려구요
 
-        {% for mark in market_detail %}
         var marker = new naver.maps.Marker({
-            position : new naver.maps.LatLng({{mark.latitude}},{{mark.longitude}}),
+            position : new naver.maps.LatLng(37.509729, 127.055447),
             map : map,
         });
 
-        {% endfor %}
+
 
 
 
@@ -48,7 +47,15 @@
 <div id="map" style="width:1000px;height:400px;">
 123
 </div>
-{{ market
+{{ market_list }}
+
+<br>
+<br>
+<br>
+
+{% for m in market_list %}
+    {{m.latitude}}
+{% endfor %}
 <!--보여줄 곳 끝-->
 
 
