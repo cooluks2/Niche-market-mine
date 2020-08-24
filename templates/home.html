@@ -23,11 +23,18 @@
 
         var map = new naver.maps.Map('map', mapOptions);
 
+        // marker 반복문 이용!!! 하려구요
 
+        {% for mark in market_detail %}
         var marker = new naver.maps.Marker({
-            position : new naver.maps.LatLng(37.3595704, 127.105399),
+            position : new naver.maps.LatLng({{mark.latitude}},{{mark.longitude}}),
             map : map,
         });
+
+        {% endfor %}
+
+
+
     });
 
 
@@ -37,12 +44,16 @@
 
 
 <!--보여줄 곳-->
-<h1>지도 입니당 일단 늘립니당 더더더더더 어디까지</h1>
-<div id="map" style="width:100%;height:400px;" class="map">
-
+<h1>홈 페이지</h1>
+<div id="map" style="width:1000px;height:400px;">
+123
 </div>
-
+{{ market
 <!--보여줄 곳 끝-->
+
+
+
+</script>
 
 <!--이 안에 작성-->
 {% endblock %}
