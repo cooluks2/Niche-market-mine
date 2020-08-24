@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}store_list.html{% endblock %}
+{% block content %}
+<h1>Store List</h1>
+<br>
+<ul>
+    {% for store in stores %}
+    <li><a href="/market/store/{{store.market_list.id}}/{{store.id}}">
+        {{ store }}</a></li>
+    {% endfor %}
+</ul>
+
+
+{% if user.is_active %}
+<div class="text-right mr-3">
+    <a href="{% url 'market:store_add' market_fk%}" class="btn btn-primary btn-sm">
+        <i class="fas fa-pencil-alt"></i> 쓰기</a>
+</div>
+{% endif %}
+
+
+{% endblock %}
