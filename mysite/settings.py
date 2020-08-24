@@ -85,7 +85,7 @@ DATABASES = {
     'ENGINE': 'django.db.backends.mysql',
     'NAME': 'market', # 데이터베이스 명
     'HOST': 'localhost', # 서버 IP
-    'PORT': '3306', # 포트번호
+    'PORT': '3306', # 포트번호ma
     'USER': 'user_app', # 사용자 ID
     'PASSWORD': '1234' # 비밀번호
   }

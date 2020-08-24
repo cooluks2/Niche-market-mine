@@ -25,7 +25,8 @@ class MarketCreateView(CreateView):
     template_name = 'market/market_form.html'
     # introduction 빠져서 임시적인 주석처리
     # fields = ['market_name', 'introduction', 'location']
-    fields = ['market_name', 'location']
+    fields = ['market_name', 'addr', 'tel', 'url' , 'ma', 'store_num', 'h_type', 'latitude', 'longitude', 'famous', 'bus', 'location']
+
 
     def get_success_url(self):
         return reverse('market:market', kwargs={'pk': self.object.pk})
@@ -44,7 +45,7 @@ class MarketCreateView(CreateView):
 
 class MarketUpdateView(UpdateView):
     model = Market
-    fields = ['market_name', 'introduction', 'location']
+    fields = ['market_name', 'addr', 'tel', 'url' , 'ma', 'store_num', 'h_type', 'latitude', 'longitude', 'famous', 'bus', 'location']
 
     def get_success_url(self):
         return reverse('market:market', kwargs={'pk': self.object.pk})
