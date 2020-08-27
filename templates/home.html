@@ -9,6 +9,8 @@
 
 <script>
     $(function(){
+        var HOME_PATH = window.HOME_PATH || '.';
+
         var mapOptions = {
             center: new naver.maps.LatLng(37.509729, 127.055447),
             zoom: 11,
@@ -24,15 +26,47 @@
         var map = new naver.maps.Map('map', mapOptions);
 
         // marker 반복문 이용!!! 하려구요
-
-        var marker = new naver.maps.Marker({
-            position : new naver.maps.LatLng(37.509729, 127.055447),
+        {% for m in market_list %}
+        var marker{{m.id}} = new naver.maps.Marker({
+            position : new naver.maps.LatLng({{m.longitude}}, {{m.latitude}}),
             map : map,
+        });
+
+        var contentString{{m.id}} = [
+        '<div class="iw_inner">',
+        '   <h5>{{m.market_name}}</h5>',
+        '   <p>addr은 못가져옴 &gt; 레얄임!<br />',
+        '       <a href="{% url 'market:market' m.id %}"><img src="http://placehold.it/55x55" width="55" height="55" alt="서울시청" class="thumb" /></a><br />',
+        '       {{m.h_type}} | {{m.tel}} &gt; 1<br />',
+        '       <a href="{{m.url}}" target="_blank">{{m.url}}</a>',
+        '   </p>',
+        '</div>'
+        ].join('');
+
+        var infowindow{{m.id}} = new naver.maps.InfoWindow({
+            content: contentString{{m.id}},
+            maxWidth: 140,
+            backgroundColor: "#eee",
+            borderColor: "#2db400",
+            borderWidth: 5,
+            anchorSize: new naver.maps.Size(30, 30),
+            anchorSkew: true,
+            anchorColor: "#eee",
+            pixelOffset: new naver.maps.Point(20, -20)
         });
 
 
 
+        naver.maps.Event.addListener(marker{{m.id}}, "click", function(e) {
+            if (infowindow{{m.id}}.getMap()) {
+                infowindow{{m.id}}.close();
+            } else {
+                infowindow{{m.id}}.open(map, marker{{m.id}});
+            }
+        });
 
+        {% endfor %}
+        // marker 반복문 끝
 
     });
 
@@ -44,18 +78,18 @@
 
 <!--보여줄 곳-->
 <h1>홈 페이지</h1>
-<div id="map" style="width:1000px;height:400px;">
+<div id="map" style="width:700px;height:400px;">
 123
 </div>
-{{ market_list }}
+<!--{{ market_list }}-->
 
 <br>
 <br>
 <br>
 
-{% for m in market_list %}
-    {{m.latitude}}
-{% endfor %}
+<!--{% for m in market_list %}-->
+<!--    {{m.latitude}}-->
+<!--{% endfor %}-->
 <!--보여줄 곳 끝-->
 
 

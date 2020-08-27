@@ -2,42 +2,56 @@
 {% load widget_tweaks %}
 {% block title %}register.html{% endblock %}
 {% block content %}
-<h1>New User Registration</h1>
-<p class="font-italic">Please enter your username and password twice.</p>
-{% if form.errors %}
-<div class="alert alert-danger">
-    <div class="font-weight-bold">
-        Wrong! Please correct the error(s) below.
-    </div>
-    {{ form.errors }}
+<style>
+.content {
+text-align: center;
+height: 60%;
+width: 25%;
+}
+::placeholder {
+color:white;
+font-size:1.1em;
+}
+
+</style>
+
+<div class="content">
+    <form action="." method="post">
+        <h1>회원가입</h1>
+
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <div class="font-weight-bold" style="color:red; background-color:red;">
+                {{ form.errors }}
+            </div>
+        </div>
+        {% endif %}
+        <div class="form-group" style="color:white;">
+            {{ form.username|attr:"autofocus"|attr:"placeholder=아이디"}}
+        </div>
+
+        <div class="form-group" style="color:white; ">
+            {{ form.password1|attr:"placeholder=비밀번호"}}
+        </div>
+
+        <div class="form-group" style="color:white; ">
+            {{ form.password2|attr:"placeholder=비밀번호확인"}}
+        </div>
+
+        <div class="form-group" style="color:white; ">
+            {{ form.last_name|attr:"placeholder=이름"}}
+        </div>
+
+        <div class="form-group" style="color:white; ">
+            {{ form.email|attr:"placeholder=Email"}}
+        </div>
+
+        <div class="form-group">
+            <div class="offset-sm-3 col-sm-5">
+                <input type="submit" value="회원가입" class="btn btn-info"/>
+            </div>
+        </div>
+    </form>
 </div>
-{% endif %}
-<form action="." method="post" class="card pt-3">{% csrf_token %}
-    <div class="form-group row">
-        {{ form.username| add_label_class:"col-form-label col-sm-3 ml-3 font-weight-bold" }}
-        <div class="col-sm-5">
-            {{ form.username|add_class:"form-control"|attr:"autofocus" }}
-        </div>
-    </div>
-
-
-
-    <div class="form-group row">
-        {{ form.password1| add_label_class:"col-form-label col-sm-3 ml-3 font-weight-bold" }}
-        <div class="col-sm-5">
-            {{ form.password1|add_class:"form-control" }}
-        </div>
-    </div>
-    <div class="form-group row">
-        {{ form.password2|add_label_class:"col-form-label col-sm-3 ml-3 font-weight-bold" }}
-        <div class="col-sm-5">
-            {{ form.password2|add_class:"form-control" }}
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="offset-sm-3 col-sm-5">
-            <input type="submit" value="Register" class="btn btn-info"/>
-        </div>
-    </div>
-</form>
 {% endblock %}

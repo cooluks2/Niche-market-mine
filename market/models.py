@@ -21,18 +21,17 @@ class Market(models.Model):
     # location = models.ForeignKey(Location, on_delete=models.CASCADE)
 
     market_name = models.TextField(verbose_name="시장이름")
-    addr = models.TextField(null=True)
-    tel = models.TextField(null=True)
-    url = models.TextField(null=True)
-    ma = models.IntegerField(null=True)
-    store_num = models.IntegerField(null=True)
-    h_type = models.TextField(null=True)
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
-    famous = models.TextField(null=True)
-    bus = models.TextField(null=True)
-
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    addr = models.TextField(null=True, blank=True)
+    tel = models.TextField(null=True, blank=True)
+    url = models.TextField(null=True, blank=True)
+    ma = models.IntegerField(null=True, blank=True)
+    store_num = models.IntegerField(null=True, blank=True)
+    h_type = models.TextField(null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    famous = models.TextField(null=True, blank=True)
+    bus = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.market_name
