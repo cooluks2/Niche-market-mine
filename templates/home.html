@@ -1,7 +1,8 @@
-{% extends "base.html" %}
+
 {% block title%}Home{% endblock %}
 {% block content%}
 <!--이 안에 작성-->
+
 
 <h1>홈 페이지</h1>
 <div>
@@ -29,12 +30,68 @@
 	        minLevel: 6 // 클러스터 할 최소 지도 레벨
 	    });
 
-        var markers = [];
+        /*
+        // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 (이거 빼면 현위치 없앨 수 있어용)
+	    if (navigator.geolocation) {
+
+	        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+	        navigator.geolocation.getCurrentPosition(function(position) {
+
+	            var lat = position.coords.latitude, // 위도
+	                lon = position.coords.longitude; // 경도
+
+	            var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+	                message = '<div style="padding:5px;">현재위치</div>'; // 인포윈도우에 표시될 내용입니다
+
+	            // 마커와 인포윈도우를 표시합니다
+	            displayMarker(locPosition, message);
+
+	        });
+
+            // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+            function displayMarker(locPosition, message) {
+
+                // 마커를 생성합니다
+                var marker_present = new kakao.maps.Marker({
+                    map: map,
+                    position: locPosition
+                });
+
+                var iwContent = message, // 인포윈도우에 표시할 내용
+                    iwRemoveable = true;
+
+                // 인포윈도우를 생성합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content : iwContent,
+                    removable : iwRemoveable
+                });
+
+                // 인포윈도우를 마커위에 표시합니다
+                infowindow.open(map, marker_present);
+
+                // 지도 중심좌표를 접속위치로 변경합니다
+                map.setCenter(locPosition);
+            }
+
+	    }
+	    */
+
+
+        var markers = []; // 마커용 빈리스트 생성
 
 	    var positions = [
             {% for m in market_list %}
             {
-                content: '<div style="padding:5px;">{{m.market_name}}</div>',
+                content: [
+        '<div>',
+        '   <h5>{{m.market_name}}</h5>',
+        '   <p>{{m.location}}<br/>',
+        '       <a href="{% url 'market:market' m.id %}"><img src="http://placehold.it/55x55" width="55" height="55" alt="서울시청" class="thumb" /></a><br />',
+        '       {{m.h_type}} | {{m.tel}} &gt; 1<br />',
+        '       <a href="{{m.url}}" target="_blank">{{m.url}}</a>',
+        '   </p>',
+        '</div>'
+        ].join(''),
                 latlng: new kakao.maps.LatLng({{m.longitude}}, {{m.latitude}})
             },
             {% endfor %}
@@ -61,7 +118,8 @@
 
 			// 마커를 생성합니다
 			var marker = new kakao.maps.Marker({
-			    position: markerPosition
+			    position: markerPosition,
+			    clickable: true
 			});
 
 			// 마커가 지도 위에 표시되도록 설정합니다
@@ -72,16 +130,19 @@
             // 인포윈도우를 생성합니다
             var infowindow = new kakao.maps.InfoWindow({
                 position : iwPosition,
-                content : iwContent
+                content : iwContent,
+                removable : true
             });
 
 
             markers.push(marker);
 
+
             kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+            //kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
 
 		}
+
 
         // 클러스터러에 마커들을 추가합니다
         clusterer.addMarkers(markers);

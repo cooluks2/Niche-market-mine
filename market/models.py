@@ -22,7 +22,7 @@ class Market(models.Model):
 
     market_name = models.TextField(verbose_name="시장이름")
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    addr = models.TextField(null=True, blank=True)
+    adr = models.TextField(null=True, blank=True)
     tel = models.TextField(null=True, blank=True)
     url = models.TextField(null=True, blank=True)
     ma = models.IntegerField(null=True, blank=True)
