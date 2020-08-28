@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>{{market_detail.location}}&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{{market_detail.market_name}}</h3>
+<div class="container">
+    <div class="container">
+        <div class="container-box-01">
+            <div class="bg-01 hvr-overline-form-left" onclick="location.href='#'">
+                <p class="title">{{market_detail.market_name}}</p>
+            </div>
+        </div>
+        <div class="container-box-02">
+            <div class="bg-01 hvr-overline-form-left" onclick="location.href='#'">
+                <p class="title">점포목록 올곳</p>
+                <p class="title">점포목록 올곳</p>
+            </div>
+        </div>
+        <div class="container-box-03">
+            <div class="container-box-02">
+                <div class="bg-01 hvr-overline-form-left" onclick="location.href='#'">
+                    <button type="button" onclick="location.href='/market/store/{{market_detail.id}}' ">스토어리스트</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <a href="{% url 'market:market_update' market_detail.id %}" class="mr-3">
+                <i class="far fa-edit"></i> 수정</a>
+            <a href="{% url 'market:market_delete' market_detail.id %}" class="text-danger mr-3">
+                <i class="fas fa-trash"></i> 삭제</a>
+        </div>
+
+        <img src="{#%# url 'market:market_download' market_detail.files.get.id #%#}">
+
+    </div>
+</div>
+{% endblock %}

@@ -4,6 +4,8 @@ from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import AccessMixin
+from .forms import SingupForm
+
 from django.views.defaults import permission_denied
 from django.shortcuts import render
 
@@ -14,7 +16,7 @@ class HomeView(TemplateView):
 
 class UserCreateView(CreateView):
     template_name = 'registration/register.html'
-    form_class = UserCreationForm
+    form_class = SingupForm
     success_url = reverse_lazy('register_done')
 
 

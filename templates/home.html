@@ -2,65 +2,103 @@
 {% block title%}Home{% endblock %}
 {% block content%}
 <!--이 안에 작성-->
+
+<h1>홈 페이지</h1>
+<div>
+<div id="map" style="width:1000px;height:500px;"></div>
+</div>
+
 <!--지도용 script 추가-->
 
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=aqknd5ytgc">
-</script>
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=672f1dc7e3016f169ace1e986e9d359c&libraries=services,clusterer,drawing"></script>
 <script>
-    $(function(){
-        var mapOptions = {
-            center: new naver.maps.LatLng(37.509729, 127.055447),
-            zoom: 11,
-            scaleControl: false,  // 축적 표시
-            logoControl: false,  // 네이버 로고
-            mapDataControl: false,  // 저작권 표시
-            zoomControl: true,  // +/- 줌 컨트롤
-            zoomControlOptions: {
-                style: naver.maps.ZoomControlStyle.LARGE
-            }
-        };
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37.560169, 127.013433), // 지도의 중심좌표(청구역)
+		        level: 9, // 지도의 확대 레벨(서울 다보이게)
+		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+		    };
 
-        var map = new naver.maps.Map('map', mapOptions);
+		// 지도를 생성한다
+		var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        // marker 반복문 이용!!! 하려구요
+		// 마커 클러스터러를 생성합니다
+	    var clusterer = new kakao.maps.MarkerClusterer({
+	        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+	        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+	        minLevel: 6 // 클러스터 할 최소 지도 레벨
+	    });
 
-        var marker = new naver.maps.Marker({
-            position : new naver.maps.LatLng(37.509729, 127.055447),
-            map : map,
-        });
+        var markers = [];
+
+	    var positions = [
+            {% for m in market_list %}
+            {
+                content: '<div style="padding:5px;">{{m.market_name}}</div>',
+                latlng: new kakao.maps.LatLng({{m.longitude}}, {{m.latitude}})
+            },
+            {% endfor %}
+        ];
 
 
+        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+        function makeOverListener(map, marker, infowindow) {
+            return function() {
+                infowindow.open(map, marker);
+            };
+        }
+
+        // 인포윈도우를 닫는 클로저를 만드는 함수입니다
+        function makeOutListener(infowindow) {
+            return function() {
+                infowindow.close();
+            };
+        }
+
+        for(var i=0;i<positions.length;i++){
+			// 마커가 표시될 위치입니다
+			var markerPosition  = positions[i].latlng;
+
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+			    position: markerPosition
+			});
+
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+			var iwContent = positions[i].content;
+		    iwPosition = markerPosition //인포윈도우 표시 위치입니다
+
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                position : iwPosition,
+                content : iwContent
+            });
 
 
+            markers.push(marker);
 
-    });
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
 
+		}
+
+        // 클러스터러에 마커들을 추가합니다
+        clusterer.addMarkers(markers);
 
 </script>
 
 <!--지도용 script 추가 끝 -->
 
-
-<!--보여줄 곳-->
-<h1>홈 페이지</h1>
-<div id="map" style="width:1000px;height:400px;">
-123
-</div>
-{{ market_list }}
-
 <br>
 <br>
 <br>
 
-{% for m in market_list %}
-    {{m.latitude}}
-{% endfor %}
-<!--보여줄 곳 끝-->
 
 
-
-</script>
+<!--{% for m in market_list %}-->
+<!--    {{m.market_name}}-->
+<!--{% endfor %}-->
 
 <!--이 안에 작성-->
 {% endblock %}

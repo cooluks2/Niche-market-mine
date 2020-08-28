@@ -402,10 +402,10 @@ nav.open + .hamburger .hamburger-inner:before, nav.open + .hamburger .hamburger-
                                 </div>
                                 <ul>
                                     {% for x in market_list %}
-                                    {% if x.location_id == i.id %}
-                                    <li><a href="{% url 'market:market' x.id %}" class="back-icon">{{x.market_name}}</a>
-                                    </li>
-                                    {% endif %}
+                                        {% if x.location_id == i.id %}
+                                        <li><a href="{% url 'market:market' x.id %}" class="back-icon">{{x.market_name}}</a>
+                                        </li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                                 <div class="back back-icon">Back</div>
